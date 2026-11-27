@@ -161,7 +161,7 @@ export class QrGeneratorModule {
     switch (this.activeType) {
       case 'url': {
         const val = document.getElementById('qr-input-url')?.value.trim();
-        return val || 'https://vartool.app';
+        return val || 'https://idrotech.services';
       }
       case 'text': {
         const val = document.getElementById('qr-input-text')?.value.trim();
@@ -176,7 +176,7 @@ export class QrGeneratorModule {
         return `WIFI:T:${enc};S:${escapeWifi(ssid)};P:${escapeWifi(pass)};H:false;;`;
       }
       default:
-        return 'https://vartool.app';
+        return 'https://idrotech.services';
     }
   }
 

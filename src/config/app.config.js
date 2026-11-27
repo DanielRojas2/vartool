@@ -1,7 +1,7 @@
 export const appConfig = {
   appName: 'Vartool',
   appTagline: 'Tus herramientas en un solo lugar',
-  siteUrl: process.env.SITE_URL || 'https://vartool.app',
+  siteUrl: process.env.SITE_URL || 'https://idrotech.services',
   port: process.env.PORT || 3000,
   security: {
     jsonLimit: '16kb',
