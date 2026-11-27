@@ -137,9 +137,9 @@ app.use(
 
 app.use(express.static(path.join(__dirname, 'shared/public'), staticOptions));
 
-// Fallback SPA
+// Fallback SPA (evitando devolver HTML cuando se solicita un archivo estático .css o .js)
 app.get('*', (req, res) => {
-  if (req.path.startsWith('/api/')) {
+  if (req.path.startsWith('/api/') || /\.(css|js|png|jpg|jpeg|svg|ico|webp|woff2?)$/i.test(req.path)) {
     return res.status(404).json({ ok: false, error: 'Recurso no encontrado.' });
   }
   res.setHeader('Cache-Control', 'no-cache, must-revalidate');
