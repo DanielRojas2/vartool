@@ -1,0 +1,24 @@
+{
+  "name": "vartool",
+  "version": "1.0.0",
+  "description": "Vartool (Tus herramientas en un solo lugar) - Generador de QRs permanentes sin límite de escaneos y Descargador de videos de Instagram y Facebook",
+  "main": "src/server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "node --watch src/server.js"
+  },
+  "keywords": [
+    "vartool",
+    "qr-generator",
+    "video-downloader",
+    "instagram",
+    "facebook",
+    "tools"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.21.2",
+    "qrcode": "^1.5.4"
+  }
+}

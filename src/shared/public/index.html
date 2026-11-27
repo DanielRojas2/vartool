@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vartool — Generador QR Permanente Sin Caducidad y Descargador de Videos IG/FB</title>
+  <meta name="description"
+    content="Genera códigos QR permanentes sin límite de escaneos con logo central y descarga videos de Instagram y Facebook en calidad HD 1080p, 720p o SD gratis." />
+  <meta name="keywords"
+    content="generador qr sin caducidad, qr permanente gratis, descargar videos instagram, descargar videos facebook hd, permanent qr code generator, instagram reel downloader, генератор qr кодов бесплатно, скачать видео инстаграм, 永久二维码生成器, instagram视频下载" />
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1" />
+  <link rel="canonical" href="https://vartool.app/" />
+
+  <!-- Etiquetas hreflang para posicionamiento internacional (ES, EN, RU, ZH) -->
+  <link rel="alternate" hreflang="es" href="https://vartool.app/?lang=es" />
+  <link rel="alternate" hreflang="en" href="https://vartool.app/?lang=en" />
+  <link rel="alternate" hreflang="ru" href="https://vartool.app/?lang=ru" />
+  <link rel="alternate" hreflang="zh" href="https://vartool.app/?lang=zh" />
+  <link rel="alternate" hreflang="x-default" href="https://vartool.app/" />
+
+  <!-- Open Graph / Redes Sociales -->
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Vartool" />
+  <meta property="og:title" content="Vartool — Permanent QR Code Generator & Instagram/Facebook Video Downloader" />
+  <meta property="og:description"
+    content="Create permanent static QR codes with center logo (unlimited scans) and download Instagram & Facebook videos in 1080p HD, 720p, or SD MP4." />
+  <meta property="og:url" content="https://vartool.app/" />
+  <meta property="og:locale" content="es_ES" />
+  <meta property="og:locale:alternate" content="en_US" />
+  <meta property="og:locale:alternate" content="ru_RU" />
+  <meta property="og:locale:alternate" content="zh_CN" />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Vartool — Permanent QR Generator & IG/FB Video Downloader" />
+  <meta name="twitter:description"
+    content="Unlimited static QR codes with custom center image and multi-quality Instagram/Facebook MP4 video downloader." />
+
+  <!-- Datos Estructurados Schema.org (JSON-LD) para Rich Snippets y Alto CTR en Google/Yandex/Bing -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebApplication",
+        "name": "Vartool",
+        "url": "https://vartool.app/",
+        "applicationCategory": "UtilitiesApplication",
+        "operatingSystem": "All",
+        "inLanguage": ["es", "en", "ru", "zh"],
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD"
+        },
+        "featureList": [
+          "Permanent Static ISO/IEC 18004 QR Code Generator with Unlimited Scans",
+          "Custom Center Logo Embedding in PNG and Vector SVG QR Codes",
+          "Instagram Reels and Posts MP4 Video Downloader with Dynamic Quality Selection",
+          "Facebook Watch and Public Video Downloader in 1080p, 720p, and 480p"
+        ]
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "¿Por qué los códigos QR de Vartool nunca caducan?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Vartool codifica la URL, texto o red Wi-Fi directamente en la matriz estándar ISO/IEC 18004 sin usar enlaces cortos intermedios. Por eso no tienen límite de escaneos y funcionan para siempre."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How to download Instagram and Facebook videos in HD quality?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Paste the public Instagram Reel or Facebook video link into Vartool, dynamically choose from the available MP4 resolutions (1080p, 720p, 480p), and download directly to your device."
+            }
+          }
+        ]
+      }
+    ]
+  }
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/main.css?v=5" />
+</head>
+
+<body>
+  <a href="#main-content" class="skip-link" data-i18n="skipLink">Saltar al contenido principal</a>
+
+  <header class="site-header">
+    <div class="header-container">
+      <div class="brand">
+        <span class="brand-mark" aria-hidden="true">V</span>
+        <div class="brand-text">
+          <span class="brand-title">Vartool</span>
+          <span class="brand-subtitle" data-i18n="brandSubtitle">Tus herramientas en un solo lugar</span>
+        </div>
+      </div>
+
+      <nav class="main-nav" role="tablist" aria-label="Herramientas">
+        <button type="button" id="tab-qr" role="tab" aria-selected="true" aria-controls="section-qr"
+          class="nav-tab active" data-tool-target="qr" data-i18n="tabQr">
+          Generador QR
+        </button>
+        <button type="button" id="tab-downloader" role="tab" aria-selected="false" aria-controls="section-downloader"
+          class="nav-tab" data-tool-target="downloader" data-i18n="tabVideo">
+          Descargar Video
+        </button>
+      </nav>
+
+      <!-- Selector de Idiomas para Mercados Objetivo (ES, EN, RU, ZH) -->
+      <div class="lang-switcher" role="group" aria-label="Idioma / Language">
+        <button type="button" class="lang-btn active" data-lang-switch="es" aria-pressed="true"
+          title="Español">ES</button>
+        <button type="button" class="lang-btn" data-lang-switch="en" aria-pressed="false" title="English">EN</button>
+        <button type="button" class="lang-btn" data-lang-switch="ru" aria-pressed="false" title="Русский">RU</button>
+        <button type="button" class="lang-btn" data-lang-switch="zh" aria-pressed="false" title="中文">ZH</button>
+      </div>
+    </div>
+  </header>
+
+  <main id="main-content" class="main-container">
+    <!-- ANUNCIO 1 (Alto RPM Above-the-Fold Leaderboard) -->
+    <aside class="ad-slot-container" aria-label="Publicidad superior">
+      <div data-vartool-ad="topLeaderboard" data-ad-format="horizontal"></div>
+    </aside>
+
+    <!-- HERRAMIENTA 1: GENERADOR DE CÓDIGOS QR PERMANENTES (En 1 sola vista sin scroll en móvil) -->
+    <section id="section-qr" role="tabpanel" aria-labelledby="tab-qr" class="tool-panel" data-tool-section="qr">
+      <div class="panel-header compact-header">
+        <h1 data-i18n="qrTitle">Código QR Permanente</h1>
+        <p data-i18n="qrSubtitle">Codificación directa sin intermediarios. Nunca caduca y tiene escaneos ilimitados.</p>
+      </div>
+
+      <div class="qr-layout">
+        <div class="qr-form-area">
+          <div class="segmented-control" role="tablist">
+            <button type="button" role="tab" aria-selected="true" class="segment-btn active" data-qr-type="url"
+              data-i18n="qrTypeUrl">
+              Enlace Web
+            </button>
+            <button type="button" role="tab" aria-selected="false" class="segment-btn" data-qr-type="text"
+              data-i18n="qrTypeText">
+              Texto
+            </button>
+            <button type="button" role="tab" aria-selected="false" class="segment-btn" data-qr-type="wifi"
+              data-i18n="qrTypeWifi">
+              Wi-Fi
+            </button>
+          </div>
+
+          <!-- Panel Enlace -->
+          <div class="input-group" data-qr-panel="url">
+            <label class="form-label" for="qr-input-url" data-i18n="qrLabelUrl">Dirección URL</label>
+            <input type="url" id="qr-input-url" class="form-input qr-live-input"
+              data-i18n-placeholder="qrPlaceholderUrl" placeholder="https://ejemplo.com" value="https://vartool.app"
+              maxlength="1500" autocomplete="off" />
+          </div>
+
+          <!-- Panel Texto -->
+          <div class="input-group hidden" data-qr-panel="text">
+            <label class="form-label" for="qr-input-text" data-i18n="qrLabelText">Contenido de texto</label>
+            <input type="text" id="qr-input-text" class="form-input qr-live-input"
+              data-i18n-placeholder="qrPlaceholderText" placeholder="Escribe el texto para convertir en código QR"
+              maxlength="1500" />
+          </div>
+
+          <!-- Panel Wi-Fi -->
+          <div class="input-group hidden" data-qr-panel="wifi">
+            <div class="wifi-compact-grid">
+              <div>
+                <label class="form-label" for="qr-wifi-ssid" data-i18n="qrLabelSsid">Red Wi-Fi (SSID)</label>
+                <input type="text" id="qr-wifi-ssid" class="form-input qr-live-input"
+                  data-i18n-placeholder="qrPlaceholderSsid" placeholder="NombreDeRed" maxlength="120" />
+              </div>
+              <div>
+                <label class="form-label" for="qr-wifi-pass" data-i18n="qrLabelPass">Contraseña</label>
+                <input type="text" id="qr-wifi-pass" class="form-input qr-live-input"
+                  data-i18n-placeholder="qrPlaceholderPass" placeholder="Contraseña Wi-Fi" maxlength="120" />
+              </div>
+              <div>
+                <label class="form-label" for="qr-wifi-enc" data-i18n="qrLabelEnc">Seguridad</label>
+                <select id="qr-wifi-enc" class="form-input qr-live-input">
+                  <option value="WPA">WPA/WPA2</option>
+                  <option value="WEP">WEP</option>
+                  <option value="nopass" data-i18n="qrEncOpen">Abierta</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <!-- Barra de Personalización Compacta en Una Sola Fila (Imagen Central + Colores + Tamaño) -->
+          <div class="customization-bar">
+            <div class="custom-item logo-control-item">
+              <span class="custom-micro-label" data-i18n="qrCustomTitle">Personalización</span>
+              <div class="logo-btn-group">
+                <button type="button" id="btn-select-logo" class="btn-outline btn-compact">
+                  <span data-i18n="qrLogoBtn">Imagen central</span>
+                </button>
+                <input type="file" id="qr-logo-input" class="hidden"
+                  accept="image/png,image/jpeg,image/svg+xml,image/webp" />
+                <img id="qr-logo-thumb" class="logo-mini-thumb hidden" alt="Logo central" />
+                <button type="button" id="qr-logo-clear" class="btn-remove-logo hidden" data-i18n="qrLogoRemove">
+                  Quitar
+                </button>
+              </div>
+            </div>
+
+            <div class="custom-item color-pair-item">
+              <div>
+                <label class="custom-micro-label" for="qr-color-dark" data-i18n="qrColorDark">Color QR</label>
+                <input type="color" id="qr-color-dark" class="color-swatch qr-live-input" value="#000000" />
+              </div>
+              <div>
+                <label class="custom-micro-label" for="qr-color-light" data-i18n="qrColorLight">Fondo</label>
+                <input type="color" id="qr-color-light" class="color-swatch qr-live-input" value="#ffffff" />
+              </div>
+            </div>
+
+            <div class="custom-item size-slider-item">
+              <label class="custom-micro-label" for="qr-size">
+                <span data-i18n="qrSizeLabel">Tamaño</span>: <strong id="qr-size-val">520px</strong>
+              </label>
+              <input type="range" id="qr-size" class="range-input qr-live-input" min="240" max="1000" step="40"
+                value="520" />
+            </div>
+          </div>
+        </div>
+
+        <!-- Vista Previa QR y Botones de Descarga -->
+        <div class="qr-preview-area">
+          <div class="qr-box">
+            <canvas id="qr-canvas" width="520" height="520" aria-label="QR Code"></canvas>
+          </div>
+          <div class="qr-actions">
+            <button type="button" id="btn-download-qr-png" class="btn-primary btn-compact-dl"
+              data-i18n="btnDownloadPng">
+              Descargar PNG
+            </button>
+            <button type="button" id="btn-download-qr-svg" class="btn-outline btn-compact-dl"
+              data-i18n="btnDownloadSvg">
+              Descargar SVG
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- HERRAMIENTA 2: DESCARGADOR DE VIDEOS CON SELECTOR DINÁMICO DE CALIDADES Y BOTÓN PEGAR AL LADO -->
+    <section id="section-downloader" role="tabpanel" aria-labelledby="tab-downloader" class="tool-panel hidden"
+      data-tool-section="downloader">
+      <div class="panel-header compact-header">
+        <h2 class="panel-h1" data-i18n="videoTitle">Descargador de Videos (Instagram y Facebook)</h2>
+        <p data-i18n="videoSubtitle">Pega el enlace del video o Reel para detectar dinámicamente las calidades MP4
+          disponibles.</p>
+      </div>
+
+      <form id="video-downloader-form" class="downloader-bar" novalidate>
+        <label for="video-url-input" class="form-label" data-i18n="videoUrlLabel">Enlace del video o Reel</label>
+        <!-- Input + Botón Pegar estrictamente al lado + Botón Analizar -->
+        <div class="url-inline-row">
+          <div class="url-input-with-paste">
+            <input type="url" id="video-url-input" class="form-input url-field"
+              data-i18n-placeholder="videoUrlPlaceholder"
+              placeholder="https://www.instagram.com/reel/... o https://www.facebook.com/watch/..." maxlength="512"
+              required />
+            <button type="button" id="btn-paste-url" class="btn-outline btn-paste-side" data-i18n="btnPaste">
+              Pegar
+            </button>
+          </div>
+          <button type="submit" id="btn-extract-video" class="btn-primary btn-analyze-side">
+            <span id="btn-extract-text" data-i18n="btnAnalyze">Analizar calidades</span>
+          </button>
+        </div>
+
+        <div class="quick-sample-row">
+          <button type="button" class="sample-link-btn" data-sample-url="https://www.instagram.com/reel/vartool-demo/"
+            data-i18n="btnSampleIg">
+            Probar enlace Instagram
+          </button>
+          <button type="button" class="sample-link-btn" data-sample-url="https://www.facebook.com/watch/?v=vartool-demo"
+            data-i18n="btnSampleFb">
+            Probar enlace Facebook
+          </button>
+        </div>
+      </form>
+
+      <!-- Contenedor Dinámico donde aparecen las calidades permitidas del video analizado -->
+      <div id="video-result-container" class="video-result-area hidden" aria-live="polite"></div>
+    </section>
+
+    <!-- ANUNCIO 2 (Alto CTR Nativo Justo Debajo de la Acción Principal) -->
+    <aside class="ad-slot-container" aria-label="Publicidad intermedia">
+      <div data-vartool-ad="inToolNative" data-ad-format="fluid"></div>
+    </aside>
+
+    <!-- Bloque de Contenido Semántico SEO Multilingüe (Indexable para Tráfico Orgánico) -->
+    <section class="seo-content-section" aria-label="Información de herramientas">
+      <h2 class="seo-heading" data-i18n="seoSectionTitle">Herramientas gratuitas sin registro ni caducidad</h2>
+      <div class="seo-cards-grid">
+        <article class="seo-card">
+          <h3 data-i18n="seoCard1Title">Códigos QR estáticos que no expiran</h3>
+        </article>
+        <article class="seo-card">
+          <h3 data-i18n="seoCard2Title">Descarga videos de Instagram y Facebook</h3>
+        </article>
+      </div>
+    </section>
+
+    <!-- ANUNCIO 3 (Banner Inferior Adaptable de Cierre) -->
+    <aside class="ad-slot-container" aria-label="Publicidad inferior">
+      <div data-vartool-ad="bottomBanner" data-ad-format="horizontal"></div>
+    </aside>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-container">
+      <span data-i18n="footerLeft">Vartool — Sin base de datos ni rastreo</span>
+    </div>
+  </footer>
+
+  <div id="toast-container" class="toast-container" aria-live="polite"></div>
+
+  <script type="module" src="/js/app.js?v=4"></script>
+</body>
+
+</html>
