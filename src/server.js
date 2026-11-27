@@ -82,6 +82,12 @@ app.get('/ads.txt', (_req, res) => {
   res.send(`google.com, ${pubId}, DIRECT, f08c47fec0942fa0\n`);
 });
 
+// Verificación oficial de propiedad para Google Search Console (https://idrotech.services/googlee4f205bc4e04ffb8.html)
+app.get('/googlee4f205bc4e04ffb8.html', (_req, res) => {
+  res.type('text/html');
+  res.send('google-site-verification: googlee4f205bc4e04ffb8.html');
+});
+
 app.get('/sitemap.xml', (_req, res) => {
   const base = appConfig.siteUrl;
   const langs = ['es', 'en', 'ru', 'zh'];
