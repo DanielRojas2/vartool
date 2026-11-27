@@ -1,7 +1,7 @@
-import { i18n } from '/js/i18n.js?v=6';
-import { QrGeneratorModule } from '/features/qr-generator/client/qr.module.js?v=6';
-import { VideoDownloaderModule } from '/features/video-downloader/client/downloader.module.js?v=6';
-import { AdsModule } from '/features/monetization/client/ads.module.js?v=6';
+import { i18n } from '/js/i18n.js?v=7';
+import { QrGeneratorModule } from '/features/qr-generator/client/qr.module.js?v=7';
+import { VideoDownloaderModule } from '/features/video-downloader/client/downloader.module.js?v=7';
+import { AdsModule } from '/features/monetization/client/ads.module.js?v=7';
 
 /**
  * Orquestador Principal de Vartool

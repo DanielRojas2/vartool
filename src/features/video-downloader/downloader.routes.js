@@ -107,25 +107,30 @@ router.get(
         return res.end(buffer);
       }
 
-      // Validación estricta Anti-SSRF (solo dominios oficiales de Instagram/Facebook CDN sobre HTTPS)
-      if (!isAllowedExternalUrl(url)) {
-        const err = new Error('Dominio de origen no autorizado por políticas de seguridad.');
+      // Validación estricta Anti-SSRF y rechazo de páginas lookaside HTML
+      if (!isAllowedExternalUrl(url) || url.includes('lookaside.fbsbx.com')) {
+        const err = new Error('Dominio o formato de origen no válido.');
         err.statusCode = 403;
         throw err;
       }
 
+      // En Facebook CDN (fbcdn.net), el User-Agent 'facebookexternalhit/1.1' evita bloqueos y rate-limits de descarga
+      const isFacebookCdn = url.includes('fbcdn.net') && platform === 'facebook';
       const upstream = await fetch(url, {
         headers: {
-          'User-Agent':
-            'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36',
+          'User-Agent': isFacebookCdn
+            ? 'facebookexternalhit/1.1'
+            : 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36',
           Accept: 'video/mp4,video/*;q=0.9,*/*;q=0.8',
           Referer: url.includes('fbcdn') ? 'https://www.facebook.com/' : 'https://www.instagram.com/'
         },
+        redirect: 'follow',
         signal: AbortSignal.timeout(20000)
       });
 
-      if (!upstream.ok || !upstream.body) {
-        const err = new Error('No se pudo obtener el flujo de video desde el servidor de origen.');
+      const upstreamType = (upstream.headers.get('content-type') || '').toLowerCase();
+      if (!upstream.ok || !upstream.body || upstreamType.includes('text/html')) {
+        const err = new Error('El servidor de origen no devolvió un archivo de video MP4 válido.');
         err.statusCode = 502;
         throw err;
       }

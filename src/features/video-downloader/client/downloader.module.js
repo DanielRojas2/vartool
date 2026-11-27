@@ -1,10 +1,10 @@
-import { showToast } from '/js/utils/toast.js?v=6';
-import { i18n } from '/js/i18n.js?v=6';
+import { showToast } from '/js/utils/toast.js?v=7';
+import { i18n } from '/js/i18n.js?v=7';
 
 /**
  * Módulo Frontend: Descargador de Videos de Instagram y Facebook
- * Muestra la vista previa de la portada del video, el título de la publicación
- * y el selector dinámico de calidades permitidas antes de descargar.
+ * Muestra la portada del video, título de la publicación, selector dinámico de calidades
+ * y el botón "Descargar otro" para limpiar rápidamente el enlace anterior.
  */
 export class VideoDownloaderModule {
   constructor() {
@@ -70,6 +70,23 @@ export class VideoDownloaderModule {
         const url = urlInput?.value.trim() || '';
         this.handleExtract(url);
       });
+    }
+  }
+
+  resetForAnotherDownload() {
+    const urlInput = document.getElementById('video-url-input');
+    const resultContainer = document.getElementById('video-result-container');
+
+    this.currentData = null;
+    this.selectedFormatIndex = 0;
+
+    if (resultContainer) {
+      resultContainer.innerHTML = '';
+      resultContainer.classList.add('hidden');
+    }
+    if (urlInput) {
+      urlInput.value = '';
+      urlInput.focus();
     }
   }
 
@@ -189,7 +206,7 @@ export class VideoDownloaderModule {
             </div>
           </div>
 
-          <!-- Columna Derecha: Nombre del Video/Publicación y Selector Dinámico de Calidad -->
+          <!-- Columna Derecha: Nombre del Video/Publicación, Selector de Calidad y Botón Descargar Otro -->
           <div class="video-details-col">
             <div class="video-post-header">
               <div class="video-result-meta">
@@ -208,6 +225,9 @@ export class VideoDownloaderModule {
                 <a id="btn-trigger-video-download" href="${downloadHref}" class="btn-primary btn-download-final">
                   ${this.escapeHtml(i18n.t('btnDownloadMp4'))} · ${this.escapeHtml(activeFormat?.quality || 'HD')}
                 </a>
+                <button type="button" id="btn-download-another" class="btn-outline btn-download-another">
+                  ${this.escapeHtml(i18n.t('btnDownloadAnother'))}
+                </button>
               </div>
             </div>
           </div>
@@ -224,6 +244,13 @@ export class VideoDownloaderModule {
         },
         { once: true }
       );
+    }
+
+    const anotherBtn = document.getElementById('btn-download-another');
+    if (anotherBtn) {
+      anotherBtn.addEventListener('click', () => {
+        this.resetForAnotherDownload();
+      });
     }
 
     container.querySelectorAll('[data-quality-idx]').forEach((chip) => {
