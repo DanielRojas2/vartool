@@ -35,13 +35,13 @@ export function securityHeaders(_req, res, next) {
     'Content-Security-Policy',
     [
       "default-src 'self'",
-      "script-src 'self' 'unsafe-inline' https://pagead2.googlesyndication.com https://*.googlesyndication.com https://partner.googleadservices.com https://www.googletagservices.com https://adservice.google.com https://*.google.com https://*.adtrafficquality.google",
+      "script-src 'self' 'unsafe-inline' 'unsafe-eval' https:",
       "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
       "font-src 'self' https://fonts.gstatic.com data:",
       "img-src 'self' data: blob: https:",
-      "media-src 'self' https: blob:",
-      "frame-src 'self' https://pagead2.googlesyndication.com https://*.googlesyndication.com https://googleads.g.doubleclick.net https://*.doubleclick.net https://www.google.com https://*.google.com https://*.adtrafficquality.google",
-      "connect-src 'self' https://pagead2.googlesyndication.com https://*.googlesyndication.com https://*.doubleclick.net https://*.google.com https://*.adtrafficquality.google",
+      "media-src 'self' https: blob: data:",
+      "frame-src 'self' https: data: blob:",
+      "connect-src 'self' https:",
       "object-src 'none'",
       "base-uri 'self'",
       "frame-ancestors 'none'"
@@ -172,7 +172,8 @@ const ALLOWED_MEDIA_DOMAINS = [
   'fb.com',
   'fb.watch',
   'fbcdn.net',
-  'fbsbx.com'
+  'fbsbx.com',
+  'akamaihd.net'
 ];
 
 export function isAllowedExternalUrl(rawUrl) {

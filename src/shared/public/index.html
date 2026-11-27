@@ -90,7 +90,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="/css/main.css?v=5" />
+  <link rel="stylesheet" href="/css/main.css?v=6" />
 </head>
 
 <body>
@@ -162,8 +162,8 @@
           <div class="input-group" data-qr-panel="url">
             <label class="form-label" for="qr-input-url" data-i18n="qrLabelUrl">Dirección URL</label>
             <input type="url" id="qr-input-url" class="form-input qr-live-input"
-              data-i18n-placeholder="qrPlaceholderUrl" placeholder="https://ejemplo.com" value="https://idrotech.services"
-              maxlength="1500" autocomplete="off" />
+              data-i18n-placeholder="qrPlaceholderUrl" placeholder="https://ejemplo.com"
+              value="https://idrotech.services" maxlength="1500" autocomplete="off" />
           </div>
 
           <!-- Panel Texto -->
@@ -281,17 +281,6 @@
             <span id="btn-extract-text" data-i18n="btnAnalyze">Analizar calidades</span>
           </button>
         </div>
-
-        <div class="quick-sample-row">
-          <button type="button" class="sample-link-btn" data-sample-url="https://www.instagram.com/reel/vartool-demo/"
-            data-i18n="btnSampleIg">
-            Probar enlace Instagram
-          </button>
-          <button type="button" class="sample-link-btn" data-sample-url="https://www.facebook.com/watch/?v=vartool-demo"
-            data-i18n="btnSampleFb">
-            Probar enlace Facebook
-          </button>
-        </div>
       </form>
 
       <!-- Contenedor Dinámico donde aparecen las calidades permitidas del video analizado -->
@@ -330,7 +319,7 @@
 
   <div id="toast-container" class="toast-container" aria-live="polite"></div>
 
-  <script type="module" src="/js/app.js?v=4"></script>
+  <script type="module" src="/js/app.js?v=6"></script>
 </body>
 
 </html>

@@ -36,6 +36,43 @@ router.post(
 );
 
 /**
+ * GET /api/video/thumbnail
+ * Proxy ligero sin almacenamiento para previsualizar la portada del video de Instagram/Facebook
+ * evitando bloqueos Cross-Origin-Resource-Policy (CORP) del CDN de Meta.
+ */
+router.get('/thumbnail', async (req, res) => {
+  try {
+    const { url } = req.query;
+    if (!url || typeof url !== 'string' || !isAllowedExternalUrl(url)) {
+      return res.status(404).end();
+    }
+
+    const upstream = await fetch(url, {
+      headers: {
+        'User-Agent':
+          'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36',
+        Accept: 'image/avif,image/webp,image/apng,image/*,*/*;q=0.8',
+        Referer: 'https://www.instagram.com/'
+      },
+      signal: AbortSignal.timeout(8000)
+    });
+
+    if (!upstream.ok) {
+      return res.status(404).end();
+    }
+
+    const contentType = upstream.headers.get('content-type') || 'image/jpeg';
+    const arrayBuffer = await upstream.arrayBuffer();
+    res.setHeader('Content-Type', contentType);
+    res.setHeader('Cache-Control', 'public, max-age=3600');
+    res.setHeader('Cross-Origin-Resource-Policy', 'cross-origin');
+    return res.send(Buffer.from(arrayBuffer));
+  } catch {
+    return res.status(404).end();
+  }
+});
+
+/**
  * GET /api/video/download
  * Proxy de transmisión directa con prevención de SSRF, límite de concurrencia por IP y corte por tamaño máximo.
  */

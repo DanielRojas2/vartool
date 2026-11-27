@@ -527,7 +527,7 @@ body {
   color: var(--pure-black);
 }
 
-/* Panel Dinámico de Calidades Permitidas del Video */
+/* Panel Dinámico de Calidades con Portada y Nombre de la Publicación */
 .video-result-area {
   margin-top: 1.15rem;
 }
@@ -540,10 +540,75 @@ body {
   padding: 1.15rem;
 }
 
+.video-result-grid {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  gap: 1.25rem;
+  align-items: start;
+}
+
+.video-cover-col {
+  width: 100%;
+}
+
+.video-cover-frame {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  background: var(--pure-black);
+  border: 1px solid var(--light-grey);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.video-cover-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.video-cover-badge {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  background: var(--mclaren-orange);
+  color: var(--pure-white);
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 0.15rem 0.45rem;
+  border-radius: 4px;
+}
+
+.video-cover-duration {
+  position: absolute;
+  bottom: 8px;
+  right: 8px;
+  background: rgba(0, 0, 0, 0.85);
+  color: var(--pure-white);
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 0.15rem 0.45rem;
+  border-radius: 4px;
+}
+
+.video-details-col {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
 .video-result-meta {
   display: flex;
   align-items: center;
-  gap: 0.45rem;
+  flex-wrap: wrap;
+  gap: 0.5rem;
   margin-bottom: 0.35rem;
 }
 
@@ -559,26 +624,23 @@ body {
   border-radius: 4px;
 }
 
-.meta-duration {
-  background: var(--dark-grey);
+.meta-author {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--dark-grey);
 }
 
 .video-result-title {
-  font-size: 0.98rem;
+  font-size: 1rem;
   font-weight: 700;
   color: var(--pure-black);
-  margin-bottom: 0.15rem;
-}
-
-.video-result-author {
-  font-size: 0.82rem;
-  color: var(--dark-grey);
-  margin-bottom: 0.9rem;
+  line-height: 1.35;
+  word-break: break-word;
 }
 
 .dynamic-quality-panel {
   border-top: 1px solid var(--light-grey);
-  padding-top: 0.85rem;
+  padding-top: 0.75rem;
 }
 
 .quality-chips-grid {
@@ -897,6 +959,15 @@ body {
 
   .btn-analyze-side {
     width: 100%;
+  }
+
+  .video-result-grid {
+    grid-template-columns: 1fr;
+    gap: 0.85rem;
+  }
+
+  .video-cover-frame {
+    max-height: 190px;
   }
 
   .seo-cards-grid {
