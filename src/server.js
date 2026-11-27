@@ -47,6 +47,18 @@ app.get('/api/config', (_req, res) => {
   });
 });
 
+// Favicon SVG oficial con la paleta McLaren (#FF3300 y #FFFFFF) para evitar 404 en /favicon.ico y /favicon.svg
+const VARTOOL_FAVICON_SVG = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <rect width="64" height="64" rx="14" fill="#FF3300"/>
+  <path d="M18 16h9.2L32 36.8 36.8 16H46L36.2 48h-8.4L18 16z" fill="#FFFFFF"/>
+</svg>`;
+
+app.get(['/favicon.ico', '/favicon.svg'], (_req, res) => {
+  res.setHeader('Content-Type', 'image/svg+xml');
+  res.setHeader('Cache-Control', 'public, max-age=86400');
+  res.send(VARTOOL_FAVICON_SVG);
+});
+
 // Endpoints SEO Técnicos: robots.txt, sitemap.xml multilingüe (ES, EN, RU, ZH) y ads.txt para Google AdSense
 app.get('/robots.txt', (_req, res) => {
   res.type('text/plain');
