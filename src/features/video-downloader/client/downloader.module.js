@@ -1,14 +1,17 @@
-import { showToast } from '/js/utils/toast.js?v=7';
-import { i18n } from '/js/i18n.js?v=7';
+import { showToast } from '/js/utils/toast.js?v=8';
+import { i18n } from '/js/i18n.js?v=8';
 
 /**
  * Módulo Frontend: Descargador de Videos de Instagram y Facebook
- * Muestra la portada del video, título de la publicación, selector dinámico de calidades
- * y el botón "Descargar otro" para limpiar rápidamente el enlace anterior.
+ * - Previsualización de portada y título de la publicación.
+ * - Selección dinámica de calidades permitidas.
+ * - Descarga directa automatizada sin redirigir a otra ventana de reproducción.
+ * - Botón "Descargar otro" para limpiar rápidamente el enlace anterior.
  */
 export class VideoDownloaderModule {
   constructor() {
     this.isLoading = false;
+    this.isDownloadingFile = false;
     this.currentData = null;
     this.selectedFormatIndex = 0;
   }
@@ -160,6 +163,74 @@ export class VideoDownloaderModule {
     return `/api/video/thumbnail?url=${encodeURIComponent(data.thumbnail)}`;
   }
 
+  /**
+   * Descarga automatizada en segundo plano (sin redirigir a otra pestaña de reproductor):
+   * 1. Intenta descargar el Blob MP4 directamente en memoria del navegador (aprovechando CORS * del CDN de Meta).
+   * 2. Si el navegador o extensión restringe fetch CORS, dispara la descarga directa mediante iframe invisible
+   *    hacia /api/video/download (que incluye dl=1 y Content-Disposition: attachment).
+   */
+  async triggerAutomaticDownload(format, platform, buttonEl) {
+    if (!format || this.isDownloadingFile) return;
+
+    const quality = format.quality || 'HD';
+    const filename = `vartool-${platform}-${quality}-${Date.now()}.mp4`;
+    const proxyUrl = this.buildDownloadUrl(format, platform);
+
+    if (format.url.startsWith('DEMO_STREAM')) {
+      window.location.assign(proxyUrl);
+      return;
+    }
+
+    this.isDownloadingFile = true;
+    const originalLabel = buttonEl ? buttonEl.textContent : '';
+    if (buttonEl) {
+      buttonEl.disabled = true;
+      buttonEl.textContent = i18n.t('btnDownloading');
+    }
+
+    try {
+      const response = await fetch(format.url, {
+        method: 'GET',
+        mode: 'cors',
+        credentials: 'omit'
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}`);
+      }
+
+      const blob = await response.blob();
+      if (!blob || blob.size < 100) {
+        throw new Error('Empty blob');
+      }
+
+      const blobUrl = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = blobUrl;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      setTimeout(() => URL.revokeObjectURL(blobUrl), 5000);
+    } catch {
+      // Respaldo automático con Content-Disposition: attachment (dl=1) sin abrir pestaña nueva
+      let dlFrame = document.getElementById('vartool-hidden-dl-frame');
+      if (!dlFrame) {
+        dlFrame = document.createElement('iframe');
+        dlFrame.id = 'vartool-hidden-dl-frame';
+        dlFrame.style.display = 'none';
+        document.body.appendChild(dlFrame);
+      }
+      dlFrame.src = proxyUrl;
+    } finally {
+      this.isDownloadingFile = false;
+      if (buttonEl) {
+        buttonEl.disabled = false;
+        buttonEl.textContent = originalLabel;
+      }
+    }
+  }
+
   renderResult(data) {
     const container = document.getElementById('video-result-container');
     if (!container) return;
@@ -167,7 +238,6 @@ export class VideoDownloaderModule {
     const platformLabel = data.platform === 'instagram' ? 'Instagram' : 'Facebook';
     const formats = Array.isArray(data.formats) && data.formats.length > 0 ? data.formats : [];
     const activeFormat = formats[this.selectedFormatIndex] || formats[0];
-    const downloadHref = this.buildDownloadUrl(activeFormat, data.platform);
     const fallbackCover = this.getFallbackCoverSvg(platformLabel);
     const coverSrc = this.resolveThumbnailSrc(data, platformLabel);
 
@@ -222,9 +292,9 @@ export class VideoDownloaderModule {
                 ${qualityChipsHtml}
               </div>
               <div class="download-cta-row">
-                <a id="btn-trigger-video-download" href="${downloadHref}" class="btn-primary btn-download-final">
+                <button type="button" id="btn-trigger-video-download" class="btn-primary btn-download-final">
                   ${this.escapeHtml(i18n.t('btnDownloadMp4'))} · ${this.escapeHtml(activeFormat?.quality || 'HD')}
-                </a>
+                </button>
                 <button type="button" id="btn-download-another" class="btn-outline btn-download-another">
                   ${this.escapeHtml(i18n.t('btnDownloadAnother'))}
                 </button>
@@ -244,6 +314,13 @@ export class VideoDownloaderModule {
         },
         { once: true }
       );
+    }
+
+    const downloadBtn = document.getElementById('btn-trigger-video-download');
+    if (downloadBtn) {
+      downloadBtn.addEventListener('click', () => {
+        this.triggerAutomaticDownload(activeFormat, data.platform, downloadBtn);
+      });
     }
 
     const anotherBtn = document.getElementById('btn-download-another');

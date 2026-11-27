@@ -94,6 +94,22 @@ export class DownloaderService {
   }
 
   /**
+   * Agrega el parámetro `dl=1` a las URLs de CDN de Instagram y Facebook para que el propio CDN
+   * de Meta envíe la cabecera `Content-Disposition: attachment` y la descarga inicie automáticamente
+   * sin abrir una ventana de reproducción.
+   */
+  static ensureAttachmentUrl(rawUrl) {
+    if (!rawUrl || typeof rawUrl !== 'string') return rawUrl;
+    try {
+      const parsed = new URL(rawUrl);
+      parsed.searchParams.set('dl', '1');
+      return parsed.toString();
+    } catch {
+      return rawUrl;
+    }
+  }
+
+  /**
    * Verifica a nivel de URL y metadatos `efg` de Meta que el enlace sea un flujo de video MP4 válido
    * y NO una página HTML de crawler (lookaside.fbsbx.com) ni un manifiesto DASH (.mpd).
    */
@@ -172,13 +188,13 @@ export class DownloaderService {
           quality: qualityLabel,
           tier: tierLabel,
           ext: 'mp4',
-          url: cleanUrl
+          url: this.ensureAttachmentUrl(cleanUrl)
         });
       }
     }
 
-    const validHd = hdUrl && this.isValidDirectVideoStream(hdUrl) ? hdUrl : null;
-    const validSd = sdUrl && this.isValidDirectVideoStream(sdUrl) ? sdUrl : null;
+    const validHd = hdUrl && this.isValidDirectVideoStream(hdUrl) ? this.ensureAttachmentUrl(hdUrl) : null;
+    const validSd = sdUrl && this.isValidDirectVideoStream(sdUrl) ? this.ensureAttachmentUrl(sdUrl) : null;
     const primaryUrl = formats[0]?.url || validHd || validSd;
     const secondaryUrl = validSd || primaryUrl;
 

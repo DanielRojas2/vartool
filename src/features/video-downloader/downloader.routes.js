@@ -114,15 +114,20 @@ router.get(
         throw err;
       }
 
+      // Garantizar parámetro dl=1 para que el CDN de Meta fuerce Content-Disposition: attachment
+      const targetUrlObj = new URL(url);
+      targetUrlObj.searchParams.set('dl', '1');
+      const finalTargetUrl = targetUrlObj.toString();
+
       // En Facebook CDN (fbcdn.net), el User-Agent 'facebookexternalhit/1.1' evita bloqueos y rate-limits de descarga
-      const isFacebookCdn = url.includes('fbcdn.net') && platform === 'facebook';
-      const upstream = await fetch(url, {
+      const isFacebookCdn = finalTargetUrl.includes('fbcdn.net') && platform === 'facebook';
+      const upstream = await fetch(finalTargetUrl, {
         headers: {
           'User-Agent': isFacebookCdn
             ? 'facebookexternalhit/1.1'
             : 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36',
           Accept: 'video/mp4,video/*;q=0.9,*/*;q=0.8',
-          Referer: url.includes('fbcdn') ? 'https://www.facebook.com/' : 'https://www.instagram.com/'
+          Referer: finalTargetUrl.includes('fbcdn') ? 'https://www.facebook.com/' : 'https://www.instagram.com/'
         },
         redirect: 'follow',
         signal: AbortSignal.timeout(20000)
@@ -142,10 +147,10 @@ router.get(
         throw err;
       }
 
-      // En Vercel Serverless el límite de respuesta por función es 4.5 MB; si el video supera 4 MB redirigimos directo al CDN oficial validado
+      // En Vercel Serverless el límite por función es 4.5 MB; al redirigir con dl=1 el CDN de Meta envía Content-Disposition: attachment e inicia la descarga directa sin abrir reproductor
       if (process.env.VERCEL && contentLength > 4 * 1024 * 1024) {
         upstream.body.cancel().catch(() => {});
-        return res.redirect(302, url);
+        return res.redirect(302, finalTargetUrl);
       }
 
       res.setHeader('Content-Type', 'video/mp4');
